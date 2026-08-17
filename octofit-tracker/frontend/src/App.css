@@ -1,0 +1,43 @@
+.app-shell {
+  min-height: 100vh;
+}
+
+.octofit-navbar {
+  background: linear-gradient(135deg, #0f172a, #0f4c75);
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, #0f172a, #1d4ed8 70%, #38bdf8);
+}
+
+.hero-summary {
+  border-radius: 1.25rem;
+}
+
+.app-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 0.35rem;
+}
+
+.student-card {
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(239, 246, 255, 0.95));
+}
+
+.progress {
+  height: 0.75rem;
+  background: #dbeafe;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.85rem 0.75rem;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    margin-top: 1rem;
+  }
+}
