@@ -1,53 +1,102 @@
-# Build applications with GitHub Copilot agent mode
+# OctoFit Tracker
 
-<!-- ![](../../actions/workflows/0-start-course.yml/badge.svg?branch=main) -->
-<img src="https://github.com/user-attachments/assets/1b3ea5df-f18d-4ed8-9ae6-f96dc1861818" alt="octofit-tracker" width="300"/>
+<img src="./docs/octofitapp-small.png" alt="OctoFit Tracker" width="180"/>
 
-_Build an application with GitHub Copilot agent mode in less than an hour._
+OctoFit Tracker is a full-stack prototype for Mergington High School students and gym teachers. It combines a React frontend, an Express + TypeScript API, and MongoDB-ready Mongoose models to support social fitness tracking, team competition, and personalized workout guidance.
 
-## Welcome
+## Features
 
-People love how GitHub Copilot helps them write code faster and with fewer errors.
-But what if GitHub could create a multi-tier application with a presentation, logic, and data layers based on requirements written in natural language?
-In this exercise, we will prompt GitHub Copilot agent mode to create a complete application.
+- Student and gym teacher profiles
+- Activity logging for running, walking, cycling, workouts, swimming, yoga, and basketball
+- Progress tracking with total points, distance, and activity history
+- Team creation, team joining, and team dashboard summaries
+- Individual and team leaderboards ranked by earned points
+- Personalized workout suggestions based on each student's recent activity
+- Seed data for users, teachers, teams, activities, workouts, and leaderboard snapshots
+- Responsive Bootstrap UI optimized for quick updates during class or after school
 
-- **Who is this for**: Intermediate developers familiar with GitHub Copilot, basic GitHub, and basic web development
-- **What you'll learn**: We'll introduce GitHub Copilot agent mode and how to use it for application development.
-- **What you'll build**: You'll use GitHub Copilot agent mode to create a fitness application as the gym teacher of a high school.
-- **Prerequisites**: Skills Exercise: <a href="https://github.com/skills/getting-started-with-github-copilot">Getting Started with GitHub Copilot</a>.
-- **How long**: This course takes less than one hour to complete.
+## Project structure
 
-In this exercise, you will:
+```text
+octofit-tracker/
+├── backend/
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── src/
+│       ├── app.ts
+│       ├── server.ts
+│       ├── config/
+│       ├── data/
+│       ├── models/
+│       ├── routes/
+│       ├── services/
+│       ├── scripts/
+│       ├── types/
+│       └── utils/
+└── frontend/
+    ├── package.json
+    ├── vite.config.js
+    └── src/
+        ├── components/
+        ├── pages/
+        └── services/
+```
 
-1. Start up a preconfigured development environment for making a multi-tier application.
-1. Prompt in GitHub Copilot Chat and select the edit tab and select agent mode from the edit/agent drop-down.
-1. In this exercise I primarily used the latest default LLM.
-1. Try other LLM models to see other output.
-1. For each step open up a new Copilot Chat session by hitting the plus `+` icon in the Copilot Chat pane.
+## Setup
 
-### How to start this exercise
+### 1. Install dependencies
 
-Simply copy the exercise to your account, then give your favorite Octocat (Mona) **about 20 seconds** to prepare the first lesson, then **refresh the page**.
+```bash
+npm install --prefix octofit-tracker/backend
+npm install --prefix octofit-tracker/frontend
+```
 
-[![](https://img.shields.io/badge/Copy%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/new?template_owner=skills&template_name=build-applications-w-copilot-agent-mode&owner=%40me&name=skills-build-applications-w-copilot-agent-mode&description=Exercise:+Build+applications+with+GitHub+Copilot+agent+mode&visibility=public)
+### 2. Start MongoDB
 
-<details>
-<summary>Having trouble? 🤷</summary><br/>
+The devcontainer is configured for `mongodb-org` and uses the `octofit_db` database.
 
-When copying the exercise, we recommend the following settings:
+```bash
+ps aux | grep mongod
+mongod --dbpath /data/db --fork --logpath /tmp/mongod.log
+```
 
-- For owner, choose your personal account or an organization to host the repository.
+### 3. Seed the database
 
-- We recommend creating a public repository, since private repositories will use Actions minutes.
+```bash
+npm run seed --prefix octofit-tracker/backend
+```
 
-If the exercise isn't ready in 20 seconds, please check the "Actions" tab of your repository (or visit `https://github.com/<YOUR-USERNAME>/<YOUR-REPO>/actions`).
+If MongoDB is not available, the API still serves the bundled seed data from memory so the prototype can run locally.
 
-- Check to see if a job is running. Sometimes it simply takes a bit longer.
+### 4. Run the backend and frontend
 
-- If the page shows a failed job, please submit an issue. Nice, you found a bug! 🐛
+```bash
+npm run dev --prefix octofit-tracker/backend
+npm run dev --prefix octofit-tracker/frontend -- --host 0.0.0.0
+```
 
-</details>
+The frontend runs on port `5173` and the API runs on port `8000`.
 
----
+## Testing
 
-&copy; 2025 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+```bash
+npm test --prefix octofit-tracker/backend
+npm run build --prefix octofit-tracker/backend
+npm run build --prefix octofit-tracker/frontend
+```
+
+## API overview
+
+- `GET /api/health`
+- `GET /api/bootstrap`
+- `POST /api/users`
+- `POST /api/activities`
+- `POST /api/teams`
+- `POST /api/teams/:teamId/join`
+- `GET /api/users/:userId/workout-suggestions`
+
+## Notes
+
+- The frontend automatically uses a Codespaces-friendly backend URL when `VITE_CODESPACE_NAME` is available.
+- Workout suggestions are regenerated whenever activity or team data changes.
+- Leaderboards are stored in MongoDB when the database is available and are computed in-memory otherwise.
