@@ -1,10 +1,22 @@
-# OctoFit Tracker
+# Build Applications with GitHub Copilot Agent Mode
+
+<img src="https://octodex.github.com/images/Professortocat_v2.png" align="right" height="200px" />
+
+Hey lak080724PAYCOR!
+
+Mona here. I'm done preparing your exercise. Hope you enjoy! 💚
+
+Remember, it's self-paced so feel free to take a break! ☕️
+
+[![](https://img.shields.io/badge/Go%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/lak080724PAYCOR/skills-build-applications-w-copilot-agent-mode/issues/2)
+
+## OctoFit Tracker prototype
 
 <img src="./docs/octofitapp-small.png" alt="OctoFit Tracker" width="180"/>
 
 OctoFit Tracker is a full-stack prototype for Mergington High School students and gym teachers. It combines a React frontend, an Express + TypeScript API, and MongoDB-ready Mongoose models to support social fitness tracking, team competition, and personalized workout guidance.
 
-## Features
+### Features
 
 - Student and gym teacher profiles
 - Activity logging for running, walking, cycling, workouts, swimming, yoga, and basketball
@@ -15,7 +27,7 @@ OctoFit Tracker is a full-stack prototype for Mergington High School students an
 - Seed data for users, teachers, teams, activities, workouts, and leaderboard snapshots
 - Responsive Bootstrap UI optimized for quick updates during class or after school
 
-## Project structure
+### Project structure
 
 ```text
 octofit-tracker/
@@ -42,16 +54,16 @@ octofit-tracker/
         └── services/
 ```
 
-## Setup
+### Setup
 
-### 1. Install dependencies
+#### 1. Install dependencies
 
 ```bash
 npm install --prefix octofit-tracker/backend
 npm install --prefix octofit-tracker/frontend
 ```
 
-### 2. Start MongoDB
+#### 2. Start MongoDB
 
 The devcontainer is configured for `mongodb-org` and uses the `octofit_db` database.
 
@@ -60,7 +72,7 @@ ps aux | grep mongod
 mongod --dbpath /data/db --fork --logpath /tmp/mongod.log
 ```
 
-### 3. Seed the database
+#### 3. Seed the database
 
 ```bash
 npm run seed --prefix octofit-tracker/backend
@@ -68,7 +80,7 @@ npm run seed --prefix octofit-tracker/backend
 
 If MongoDB is not available, the API still serves the bundled seed data from memory so the prototype can run locally.
 
-### 4. Run the backend and frontend
+#### 4. Run the backend and frontend
 
 ```bash
 npm run dev --prefix octofit-tracker/backend
@@ -77,7 +89,7 @@ npm run dev --prefix octofit-tracker/frontend -- --host 0.0.0.0
 
 The frontend runs on port `5173` and the API runs on port `8000`.
 
-## Testing
+### Testing
 
 ```bash
 npm test --prefix octofit-tracker/backend
@@ -85,7 +97,7 @@ npm run build --prefix octofit-tracker/backend
 npm run build --prefix octofit-tracker/frontend
 ```
 
-## API overview
+### API overview
 
 - `GET /api/health`
 - `GET /api/bootstrap`
@@ -95,7 +107,7 @@ npm run build --prefix octofit-tracker/frontend
 - `POST /api/teams/:teamId/join`
 - `GET /api/users/:userId/workout-suggestions`
 
-## Notes
+### Notes
 
 - The frontend automatically uses a Codespaces-friendly backend URL when `VITE_CODESPACE_NAME` is available.
 - Workout suggestions are regenerated whenever activity or team data changes.
