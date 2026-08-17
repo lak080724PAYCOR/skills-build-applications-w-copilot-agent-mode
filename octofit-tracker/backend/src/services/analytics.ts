@@ -92,7 +92,7 @@ export function buildTeamLeaderboard(
 export function buildWorkoutSuggestions(
   user: UserRecord,
   activities: ActivityRecord[],
-  now = new Date('2026-08-17T00:00:00.000Z'),
+  now = new Date(),
 ): WorkoutSuggestion[] {
   const recentActivities = getUserActivities(user.id, activities).filter((activity) => {
     const diff = now.getTime() - activity.loggedAt.getTime();

@@ -15,7 +15,7 @@ function DashboardPage({ dashboard, profileForm, activityForm }) {
         <StatCard label="Teachers" value={teachers.length} hint="Gym teachers guiding teams and challenges." />
         <StatCard
           label="Recent activities"
-          value={dashboard.activities.slice(0, 5).length}
+          value={dashboard.activities.length}
           hint="Latest submissions powering the live leaderboards."
         />
         <StatCard

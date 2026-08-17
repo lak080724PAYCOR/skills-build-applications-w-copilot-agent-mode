@@ -28,6 +28,13 @@ import {
 } from './analytics';
 
 type SeedStore = ReturnType<typeof cloneSeedStore>;
+type ServiceError = Error & { statusCode?: number };
+
+function createServiceError(message: string, statusCode: number) {
+  const error: ServiceError = new Error(message);
+  error.statusCode = statusCode;
+  return error;
+}
 
 function toPlainStoreUsers(users: UserRecord[]) {
   return users.map(({ id, name, role, grade, favoriteActivity, teamIds }) => ({
@@ -237,11 +244,11 @@ class OctofitService {
     await this.initialize();
 
     if (!input.name.trim()) {
-      throw new Error('A name is required.');
+      throw createServiceError('A name is required.', 400);
     }
 
     if (!assertValidRole(input.role)) {
-      throw new Error('Role must be Student or Gym Teacher.');
+      throw createServiceError('Role must be Student or Gym Teacher.', 400);
     }
 
     const user: UserRecord = {
@@ -273,21 +280,21 @@ class OctofitService {
     await this.initialize();
 
     if (!this.store.users.some((user) => user.id === input.userId)) {
-      throw new Error('Selected user does not exist.');
+      throw createServiceError('Selected user does not exist.', 404);
     }
 
     if (!assertValidActivityType(input.type)) {
-      throw new Error('Please choose a supported activity type.');
+      throw createServiceError('Please choose a supported activity type.', 400);
     }
 
     if (!Number.isFinite(input.durationMinutes) || input.durationMinutes <= 0) {
-      throw new Error('Duration must be greater than zero.');
+      throw createServiceError('Duration must be greater than zero.', 400);
     }
 
     const distanceKm = Number.isFinite(input.distanceKm) ? Number(input.distanceKm) : 0;
 
     if (distanceKm < 0) {
-      throw new Error('Distance cannot be negative.');
+      throw createServiceError('Distance cannot be negative.', 400);
     }
 
     const activity: ActivityRecord = {
@@ -320,12 +327,12 @@ class OctofitService {
     await this.initialize();
 
     if (!input.name.trim() || !input.description.trim()) {
-      throw new Error('Team name and description are required.');
+      throw createServiceError('Team name and description are required.', 400);
     }
 
     const captain = this.store.users.find((user) => user.id === input.captainId && user.role === 'Student');
     if (!captain) {
-      throw new Error('Captain must be an existing student.');
+      throw createServiceError('Captain must be an existing student.', 400);
     }
 
     const teacherIds = (input.teacherIds || []).filter((teacherId) =>
@@ -362,11 +369,11 @@ class OctofitService {
     const user = this.store.users.find((candidate) => candidate.id === userId);
 
     if (!team || !user) {
-      throw new Error('Team or user could not be found.');
+      throw createServiceError('Team or user could not be found.', 404);
     }
 
     if (user.role !== 'Student') {
-      throw new Error('Only students can join teams.');
+      throw createServiceError('Only students can join teams.', 400);
     }
 
     team.memberIds = [...new Set([...team.memberIds, user.id])];
@@ -388,7 +395,7 @@ class OctofitService {
 
     const user = this.store.users.find((candidate) => candidate.id === userId);
     if (!user) {
-      throw new Error('User not found.');
+      throw createServiceError('User not found.', 404);
     }
 
     return buildWorkoutSuggestions(user, this.store.activities);
